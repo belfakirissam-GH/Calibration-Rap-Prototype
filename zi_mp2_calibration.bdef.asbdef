@@ -1,0 +1,101 @@
+managed implementation in class zbp_i_mp2_calibration unique;
+strict ( 2 );
+
+define behavior for ZI_MP2_CALIBRATION alias Calibration
+persistent table zmp2_calib_h
+lock master
+authorization master ( instance, global )
+etag master LocalLastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  association _Points { create; }
+
+  determination setInitialResult on modify { create; }
+
+  field ( numbering : managed, readonly )
+  CalibrationUuid;
+
+  field ( readonly )
+  OverallResult,
+  CreatedBy,
+  CreatedAt,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+  mapping for zmp2_calib_h
+    {
+      CalibrationUuid    = calibration_uuid;
+      EquipmentUuid      = equipment_uuid;
+      CalibrationId      = calibration_id;
+      CalibrationDate    = calibration_date;
+      Temperature        = temperature;
+      TemperatureUnit    = temperature_unit;
+      OverallResult      = overall_result;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+define behavior for ZI_MP2_CALIBRATIONPOINT alias CalibrationPoint
+persistent table zmp2_calib_p
+lock dependent by _Calibration
+authorization dependent by _Calibration
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  association _Calibration;
+
+  field ( numbering : managed, readonly )
+  PointUuid;
+
+  field ( readonly )
+  CalibrationUuid,
+  DeviationValue,
+  PointResult,
+  CreatedBy,
+  CreatedAt,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+  determination calculatePointResult on modify
+  {
+    create;
+    field ReferenceValue, MeasuredValue, ToleranceValue;
+  }
+
+  validation ValidatePointData on save
+  {
+    create;
+    update;
+    field ToleranceValue;
+  }
+
+  mapping for zmp2_calib_p
+    {
+      PointUuid          = point_uuid;
+      CalibrationUuid    = calibration_uuid;
+      PointNumber        = point_number;
+      TargetValue        = target_value;
+      ReferenceValue     = reference_value;
+      MeasuredValue      = measured_value;
+      ToleranceValue     = tolerance_value;
+      DeviationValue     = deviation_value;
+      MeasurementUnit    = measurement_unit;
+      PointResult        = point_result;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}

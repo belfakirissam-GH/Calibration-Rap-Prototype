@@ -1,0 +1,19 @@
+projection;
+strict ( 2 );
+
+define behavior for ZC_MP2_CALIBRATION alias Calibration
+{
+  use create;
+  use update;
+  use delete;
+
+  use association _Points { create; }
+}
+
+define behavior for ZC_MP2_CALIBRATIONPOINT alias CalibrationPoint
+{
+  use update;
+  use delete;
+
+  use association _Calibration;
+}

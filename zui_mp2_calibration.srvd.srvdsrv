@@ -1,0 +1,6 @@
+@EndUserText.label: 'Calibration Service'
+define service ZUI_MP2_CALIBRATION {
+  expose ZC_MP2_CALIBRATION      as Calibrations;
+  expose ZC_MP2_CALIBRATIONPOINT as CalibrationPoints;
+  expose ZC_MP2_EQUIPMENT        as Equipments;
+}
