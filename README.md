@@ -101,7 +101,7 @@ HTTPS (`POST`), eliminating the PDF / Excel / manual-upload chain.
 
 ## 10. Academic context
 
-Developed as case study B of a Master's project. The full write-up is in the thesis; this
+Developed as case study B of a Master's project. The full write-up is in the Project Documentation; this
 repository contains the complete prototype source code.
 
 ## License
